@@ -1,0 +1,6 @@
+[submodule "easyloggingpp"]
+	path = 3dparty/easyloggingpp
+	url = git@github.com:easylogging/easyloggingpp.git
+[submodule "SDL"]
+	path = 3dparty/SDL
+	url = git@github.com:spurious/SDL-mirror.git
