@@ -166,13 +166,20 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CUDA_Buffer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainLoop.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="SDL_Wrapper.cpp" />
+    <ClCompile Include="SDL_InitError.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="CUDA_Renderer.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\3dparty\SDL\VisualC\SDLmain\SDLmain_VS2013.vcxproj">
@@ -183,7 +190,15 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CUDA_Buffer.h" />
+    <ClInclude Include="kernel.cuh" />
+    <ClInclude Include="MainLoop.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="SDL_Wrapper.h" />
+    <ClInclude Include="SDL_InitError.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="CUDA_Renderer.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

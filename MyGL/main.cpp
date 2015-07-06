@@ -1,68 +1,35 @@
 #include "stdafx.h"
+#include "SDL_Wrapper.h"
+#include "SDL_InitError.h"
+#include "Window.h"
 
 std::string windowTitle = "Basic Graphic Library";
-int windowW = 640;
-int windowH = 480;
+int windowW = 1024;
+int windowH = 1024;
 
 #ifdef __cplusplus
 extern "C"
 #endif
 int main(int argc, char *argv[])
 {
-	LOG(INFO) << "START";
+	LOG(INFO) << "----START----";
 
-	SDL_Window *window;
+	int retCode = 0;
 
-	SDL_Init(SDL_INIT_VIDEO);
-
-	window = SDL_CreateWindow(windowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, windowW, windowH, NULL);
-
-	// Check that the window was successfully made
-	if (window == NULL) {
-		// In the event that the window could not be made...
-		LOG(INFO) <<  "Could not create window:" << SDL_GetError();
-		return 1;
-	}
-
-	bool b = true;
-
-	while (b)
+	try
 	{
-		SDL_Delay(1);
-		SDL_Event event;
+		LOG(INFO) << "SDL initialization";
+		SDL_Wrapper sdl(SDL_INIT_VIDEO | SDL_INIT_TIMER);
 
-		while (SDL_PollEvent(&event))
-		{
-			switch (event.type)
-			{
-			case SDL_KEYDOWN:
-				break;
-			case SDL_KEYUP:
-				if (event.key.keysym.scancode == SDL_SCANCODE_ESCAPE)
-				{
-					LOG(INFO) << "escape";
-					b = false;
-				}
-				break;
-			case SDL_QUIT:
-				b = false;
-				break;
-			case SDL_WINDOWEVENT_HIDDEN:
-				b = false;
-				break;
-			default:
-				break;
-			}
-		}
+		Window window(windowTitle, windowW, windowH);
+
+		retCode = window.exec();
 	}
-
-	
-	SDL_DestroyWindow(window);
-	SDL_Quit();
-
-
-
+	catch (const SDL_InitError& e)
+	{
+		LOG(ERROR) << "Error while initializing SDL:  " << e.what();
+	}
 	LOG(INFO) << "----CLOSE----";
 
-	return 0;
+	return retCode;
 }
