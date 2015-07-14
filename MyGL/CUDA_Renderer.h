@@ -1,5 +1,9 @@
 #pragma once
 #include "CUDA_Buffer.h"
+#include "common.h"
+#include "CUDA_ObjectBuffer.h"
+
+
 
 
 class CUDA_Renderer
@@ -11,6 +15,8 @@ public:
 	static bool init();
 
 	void clearColor(SDL_Color color);
+
+	void draw(std::vector<CUDA_ObjectBuffer>& objects, RenderStrategy strategy);
 
 	void swapBuffers();
 

@@ -4,3 +4,6 @@
 [submodule "SDL"]
 	path = 3dparty/SDL
 	url = git@github.com:spurious/SDL-mirror.git
+[submodule "3dparty/tinyobjloader"]
+	path = 3dparty/tinyobjloader
+	url = git@github.com:syoyo/tinyobjloader.git

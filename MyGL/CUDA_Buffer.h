@@ -11,9 +11,9 @@ public:
 
 	uchar4* getMemPointer() { return (uchar4*)pData; }
 
-	void getData(void** dst, size_t size, size_t count);
+	void getData(void* dst, size_t size, size_t count);
 
-	void setData(void** src, size_t size, size_t count);
+	void setData(void* src, size_t size, size_t count);
 
 	void setData(int value);
 

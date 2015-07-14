@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "CUDA_Renderer.h"
+#include "common.h"
 
 #include "kernel.cuh"
+#include "TrianglesRaster.cuh"
 
 void checkCudaError(cudaError_t err) {
 	if (err != cudaSuccess) 
@@ -14,21 +16,8 @@ void checkCudaError(cudaError_t err) {
 CUDA_Renderer::CUDA_Renderer(int w, int h) : width(w), height(h)
 {
 	init();
-
 	frameBuffer.malloc(sizeof(Uint32), width * height);
-
 	rawFrameBuffer = new Uint32[width * height];
-	memset(rawFrameBuffer, 0xFFFFFFFF, sizeof(Uint32) * width * height);
-	rawFrameBuffer[40] = 7777777;
-	rawFrameBuffer[41] = 7777777;
-	rawFrameBuffer[42] = 7777777;
-	rawFrameBuffer[43] = 7777777;
-	rawFrameBuffer[44] = 7777777;
-	rawFrameBuffer[45] = 6626265;
-	rawFrameBuffer[46] = 0x00FF00FF;
-	rawFrameBuffer[47] = 0x00FF00FF;
-	rawFrameBuffer[48] = 0x00FF00FF;
-
 	frameBuffer.setData(0xFFFFFFFF);
 }
 
@@ -74,7 +63,7 @@ void CUDA_Renderer::clearColor(SDL_Color color)
 	cudaEventCreate(&stop);
 
 	dim3 threads(1024);
-	dim3 blocks((getWidth() * getHeight()) / threads.x);
+	dim3 blocks((getWidth() * getHeight()) / threads.x + 1);
 	cudaEventRecord(start);
 	clearColorKernel(frameBuffer.getMemPointer(), threads, blocks, *((uchar4*)&color), getWidth() * getHeight());
 	cudaEventRecord(stop);
@@ -83,11 +72,60 @@ void CUDA_Renderer::clearColor(SDL_Color color)
 	checkCudaError(cudaGetLastError());
 	float milliseconds = 0;
 	cudaEventElapsedTime(&milliseconds, start, stop);
-	LOG(INFO) << "CUDA time simple (ms): " << milliseconds << std::endl;
+	static bool firstTime = false;
+	if (!firstTime)
+	{
+		firstTime = true;
+		LOG(INFO) << "First time CUDA clear color (ms): " << milliseconds;
+	}
+}
 
+void CUDA_Renderer::draw(std::vector<CUDA_ObjectBuffer>& objects, RenderStrategy strategy)
+{
+	cudaEvent_t start, stop;
+	cudaEventCreate(&start);
+	cudaEventCreate(&stop);
+
+	dim3 threads(1024);
+	dim3 blocks(objects.size() / threads.x + 1);
+	cudaEventRecord(start);
+		
+	switch (strategy)
+	{
+	case LINES_2D_STRATEGY:
+		break;
+	case TRIANGLES_2D_STRATEGY:
+		trianglesRaster2DKernel(objects, blocks, threads, frameBuffer.getMemPointer(), width, height);
+		break;
+	case LINES_3D_STRATEGY:
+		break;
+	case TRIANGLES_3D_STRATEGY:
+		break;
+	default:
+		break;
+	}
+
+	//drawLinesKernel(frameBuffer.getMemPointer(), threads, blocks, width, (int*)objects.getMemPointer(), colors.getMemPointer(), count);
+
+	cudaEventRecord(stop);
+	cudaEventSynchronize(stop);
+	cudaDeviceSynchronize();
+	checkCudaError(cudaGetLastError());
+	float milliseconds = 0;
+	cudaEventElapsedTime(&milliseconds, start, stop);
+
+
+
+	
+	static bool firstTime = false;
+	if (!firstTime)
+	{
+		firstTime = true;
+		LOG(INFO) << "First time draw time (ms): " << milliseconds;
+	}
 }
 
 void CUDA_Renderer::swapBuffers()
 {
-	frameBuffer.getData((void**)&rawFrameBuffer, sizeof(Uint32), height * width);
+	frameBuffer.getData(rawFrameBuffer, sizeof(Uint32), height * width);
 }

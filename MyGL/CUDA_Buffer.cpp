@@ -26,13 +26,16 @@ void CUDA_Buffer::malloc(size_t size, size_t count)
 
 void CUDA_Buffer::free()
 {
-	cudaFree(pData);
+	if (pData)
+	{
+		cudaFree(pData);
+	}
 	nullify();
 }
 
-void CUDA_Buffer::getData(void** dst, size_t size, size_t count)
+void CUDA_Buffer::getData(void* dst, size_t size, size_t count)
 {
-	if (pData == nullptr || *dst == nullptr)
+	if (pData == nullptr || dst == nullptr)
 	{
 		LOG(FATAL) << "pData or\\and dst is\\are null";
 	}
@@ -44,13 +47,13 @@ void CUDA_Buffer::getData(void** dst, size_t size, size_t count)
 		LOG(FATAL) << "Index out of bounds exception.";
 	}
 	
-	if (cudaMemcpy(*dst, pData, bytesCount, cudaMemcpyDeviceToHost) != cudaSuccess)
+	if (cudaMemcpy(dst, pData, bytesCount, cudaMemcpyDeviceToHost) != cudaSuccess)
 	{
 		LOG(FATAL) << "cudaMemcpy failed in method getData!";
 	}
 }
 
-void CUDA_Buffer::setData(void** src, size_t size, size_t count)
+void CUDA_Buffer::setData(void* src, size_t size, size_t count)
 {
 	free();
 	if (src == nullptr)
@@ -62,7 +65,7 @@ void CUDA_Buffer::setData(void** src, size_t size, size_t count)
 
 	size_t bytesCount = size * count;
 
-	if (cudaMemcpy(pData, *src, size * sizeof(size_t), cudaMemcpyHostToDevice) != cudaSuccess)
+	if (cudaMemcpy(pData, src, bytesCount, cudaMemcpyHostToDevice) != cudaSuccess)
 	{
 		LOG(FATAL) << "cudaMemcpy failed in method setData!";
 	}

@@ -4,8 +4,8 @@
 #include "Window.h"
 
 std::string windowTitle = "Basic Graphic Library";
-int windowW = 1024;
-int windowH = 1024;
+int windowW = 512;
+int windowH = 512;
 
 #ifdef __cplusplus
 extern "C"
@@ -13,6 +13,8 @@ extern "C"
 int main(int argc, char *argv[])
 {
 	LOG(INFO) << "----START----";
+
+	srand(time(nullptr));
 
 	int retCode = 0;
 

@@ -68,17 +68,21 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(IncludePath);$(SolutionDir)/3dparty/SDL/include</IncludePath>
+    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(IncludePath);$(SolutionDir)/3dparty/SDL/include;$(SolutionDir)/3dparty/tinyobjloader;$(SolutionDir)/3dparty/eigen</IncludePath>
+    <SourcePath>$(SolutionDir)/3dparty/tinyobjloader;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(VC_IncludePath);$(WindowsSDK_IncludePath);;$(SolutionDir)/3dparty/SDL/include</IncludePath>
+    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(VC_IncludePath);$(WindowsSDK_IncludePath);;$(SolutionDir)/3dparty/SDL/include;$(SolutionDir)/3dparty/tinyobjloader;$(SolutionDir)/3dparty/eigen</IncludePath>
+    <SourcePath>$(SolutionDir)/3dparty/tinyobjloader;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(IncludePath);$(SolutionDir)/3dparty/SDL/include</IncludePath>
+    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(IncludePath);$(SolutionDir)/3dparty/SDL/include;$(SolutionDir)/3dparty/tinyobjloader;$(SolutionDir)/3dparty/eigen</IncludePath>
+    <SourcePath>$(SolutionDir)/3dparty/tinyobjloader;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(VC_IncludePath);$(WindowsSDK_IncludePath);;$(SolutionDir)/3dparty/SDL/include</IncludePath>
+    <IncludePath>$(SolutionDir)/3dparty/easyloggingpp/src;$(VC_IncludePath);$(WindowsSDK_IncludePath);;$(SolutionDir)/3dparty/SDL/include;$(SolutionDir)/3dparty/tinyobjloader;$(SolutionDir)/3dparty/eigen</IncludePath>
+    <SourcePath>$(SolutionDir)/3dparty/tinyobjloader;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -164,11 +168,15 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CudaCompile Include="kernel.cu" />
+    <CudaCompile Include="kernels_common.cu" />
+    <CudaCompile Include="TrianglesRaster.cu" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\3dparty\tinyobjloader\tiny_obj_loader.cc" />
     <ClCompile Include="CUDA_Buffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainLoop.cpp" />
+    <ClCompile Include="CUDA_ObjectBuffer.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDL_Wrapper.cpp" />
     <ClCompile Include="SDL_InitError.cpp" />
@@ -190,14 +198,19 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\3dparty\tinyobjloader\tiny_obj_loader.h" />
+    <ClInclude Include="common.h" />
     <ClInclude Include="CUDA_Buffer.h" />
     <ClInclude Include="kernel.cuh" />
+    <ClInclude Include="kernels_common.cuh" />
     <ClInclude Include="MainLoop.h" />
+    <ClInclude Include="CUDA_ObjectBuffer.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="SDL_Wrapper.h" />
     <ClInclude Include="SDL_InitError.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="CUDA_Renderer.h" />
+    <ClInclude Include="TrianglesRaster.cuh" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
