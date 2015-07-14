@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainLoop.cpp" />
+    <ClCompile Include="Renderer.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Window.cpp" />
+    <ClCompile Include="CUDA_Buffer.cpp">
+      <Filter>CUDA_Side</Filter>
+    </ClCompile>
+    <ClCompile Include="CUDA_Renderer.cpp">
+      <Filter>CUDA_Side</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_InitError.cpp">
+      <Filter>SDL_Side</Filter>
+    </ClCompile>
+    <ClCompile Include="SDL_Wrapper.cpp">
+      <Filter>SDL_Side</Filter>
+    </ClCompile>
+    <ClCompile Include="..\3dparty\tinyobjloader\tiny_obj_loader.cc">
+      <Filter>OBJ_Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="CUDA_ObjectBuffer.cpp">
+      <Filter>CUDA_Side</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainLoop.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="Window.h" />
+    <ClInclude Include="CUDA_Renderer.h">
+      <Filter>CUDA_Side</Filter>
+    </ClInclude>
+    <ClInclude Include="CUDA_Buffer.h">
+      <Filter>CUDA_Side</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_InitError.h">
+      <Filter>SDL_Side</Filter>
+    </ClInclude>
+    <ClInclude Include="SDL_Wrapper.h">
+      <Filter>SDL_Side</Filter>
+    </ClInclude>
+    <ClInclude Include="..\3dparty\tinyobjloader\tiny_obj_loader.h">
+      <Filter>OBJ_Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="kernel.cuh">
+      <Filter>CUDA_Side\kernels</Filter>
+    </ClInclude>
+    <ClInclude Include="TrianglesRaster.cuh">
+      <Filter>CUDA_Side\kernels</Filter>
+    </ClInclude>
+    <ClInclude Include="kernels_common.cuh">
+      <Filter>CUDA_Side\kernels</Filter>
+    </ClInclude>
+    <ClInclude Include="CUDA_ObjectBuffer.h">
+      <Filter>CUDA_Side</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CUDA_Side">
+      <UniqueIdentifier>{48149fda-51a7-47da-a954-81eb999cae4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL_Side">
+      <UniqueIdentifier>{fa611547-3216-4d32-80d6-93262f7129db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OBJ_Loader">
+      <UniqueIdentifier>{b4ed1e8a-0b5e-4cde-b53b-02fe8f3ff222}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CUDA_Side\kernels">
+      <UniqueIdentifier>{042c5f78-c60b-4fc1-80d2-79221a9b10c3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <CudaCompile Include="kernel.cu">
+      <Filter>CUDA_Side\kernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="TrianglesRaster.cu">
+      <Filter>CUDA_Side\kernels</Filter>
+    </CudaCompile>
+    <CudaCompile Include="kernels_common.cu">
+      <Filter>CUDA_Side\kernels</Filter>
+    </CudaCompile>
+  </ItemGroup>
+</Project>
